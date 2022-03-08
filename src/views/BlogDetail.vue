@@ -16,7 +16,9 @@
       <br>
       <a href="https://www.baidu.com" class="ant-btn">自动执行超链接点击事件</a>
       <br>
-      <aalink></aalink>
+      <div v-html="test2">eee</div>
+      <render-test></render-test>
+      <render-test-1 :data="test111">ewfew</render-test-1>
       <el-divider></el-divider>
       <div class="markdown-body" v-html="blog.content"></div>
 
@@ -28,7 +30,8 @@
 <script>
   import 'github-markdown-css'
   import Header from "../components/Header";
-import Aalink from '../components/Aalink.vue';
+  import RenderTest from '@/components/RenderTest'
+  import RenderTest1 from '@/components/RenderTest1'
   const $ = require('jquery')
 
 console.log("ccc")
@@ -37,7 +40,7 @@ console.log("ccc")
 
   export default {
     name: "BlogDetail.vue",
-    components: {Header, Aalink},
+    components: {Header, RenderTest, RenderTest1},
     data() {
       return {
         blog: {
@@ -45,7 +48,9 @@ console.log("ccc")
           title: "",
           content: ""
         },
-        ownBlog: false
+        ownBlog: false,
+        test2: `<a onclick="alert('攻击你')">连接</a>`,
+        test111: `<a onclick="alert('攻击你')">连接1</a>`,
       }
     },
     created() {
@@ -65,16 +70,8 @@ console.log("ccc")
         _this.ownBlog = (blog.userId === _this.$store.getters.getUser.id)
 
       })
-    },
-    methods: {
-      test() {
-        alert(111)
-        window.open("https://www.baidu.com")
-      }
-    },mounted() {
-      console.log("ddd")
-      console.log(this.$refs)
-      $('a').click(function(event) {
+      this.$nextTick(()=>{
+        $('a').click(function(event) {
         var url = $(".aaa").attr("href")
         if (url === "https://www.baidu.co") {
            window.open(url)
@@ -85,6 +82,28 @@ console.log("ccc")
         event.stopPropagation(); //只阻止了冒泡事件， 默认默认行为没有阻止
         event.preventDefault(); //只阻止了默认事件，冒泡事件没有阻止
       })
+      })
+    },
+    methods: {
+      test() {
+        alert(111)
+        window.open("https://www.baidu.com")
+      }
+    },mounted() {
+      console.log("ddd")
+      console.log(this.$refs)
+      // $('a').click(function(event) {
+      //   var url = $(".aaa").attr("href")
+      //   if (url === "https://www.baidu.co") {
+      //      window.open(url)
+          
+      //   } else {
+      //     alert("将打开第三方链接")
+      //   }
+      //   event.stopPropagation(); //只阻止了冒泡事件， 默认默认行为没有阻止
+      //   event.preventDefault(); //只阻止了默认事件，冒泡事件没有阻止
+      // })
+      
     }
       
 
